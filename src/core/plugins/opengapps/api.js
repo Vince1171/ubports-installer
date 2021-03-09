@@ -26,6 +26,20 @@ const opengapps_list = `${baseURL}list`;
 
 const api = axios.create({ baseURL, timeout: 15000 });
 
+/**
+ * get all available archs
+ * @returns {Promise<Array<String>>} archs
+ * @throws {Error} message "unsupported" if 404 not found
+ */
+const getArch = () =>
+  api
+    .get(`${opengapps_list}`)
+    .then(({ data }) => {
+      return data.archs;
+    })
+    .catch(error => {
+      throw error;
+    });
 
 /**
  * get all available variants for a given arch and Android version
@@ -43,4 +57,4 @@ const getVariants = (arch, version) =>
     .catch(error => {
       throw error;
     });
-module.exports = { getVariants };
+module.exports = { getArch, getVariants };

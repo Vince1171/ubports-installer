@@ -25,6 +25,18 @@ const api = require("./api.js");
  * @extends Plugin
  */
 class OpenGAppsPlugin extends Plugin {
+  /**
+   * archs remote_values
+   * @returns {Promise<Array<Object>>}
+   */
+  remote_values__archs() {
+    return api.getArch().then(archs => {
+      Object.keys(archs).map(arch => ({
+        value: arch,
+        label: arch
+      }));
+    });
+  }
 
   /**
    * variants remote_values
