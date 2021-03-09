@@ -43,27 +43,65 @@ class OpenGAppsPlugin extends Plugin {
    * @returns {Promise<Array<Object>>}
    */
   remote_values__variants() {
-    return api.getVariants("arm64", "10.0").then(variants =>
-      variants.map(variant => ({
-        value: variants.indexOf(variant),
-        label: variant.name
-      }))
-    );
+    return api
+      .getVariants(this.props.settings.arch, this.props.settings.androidVersion)
+      .then(variants =>
+        variants.map(variant => ({
+          value: variants.indexOf(variant),
+          label: variant.name
+        }))
+      );
   }
 
   /**
    * androidVersions remote_values
    * @returns {Promise<Array<Object>>}
    */
-   remote_values__androidVersions() {
-    return api.getSupportedVersions("arm64").then(versions =>
-        Object.keys(versions).map(version => ({
+  remote_values__androidVersions() {
+    return api.getSupportedVersions(this.props.settings.arch).then(versions =>
+      Object.keys(versions).map(version => ({
         value: version,
         label: version
       }))
     );
   }
 
+  /**
+   * lineage_os:install action
+   * @returns {Promise<Array<Object>>}
+   */
+  action__install() {
+    return api
+      .getLatestBuild(this.props.settings.channel, this.props.config.codename)
+      .then(rootfs_infos => [
+        {
+          actions: [
+            {
+              "core:download": {
+                group: "OpenGApps",
+                files: rootfs_infos
+              }
+            },
+            {
+              "adb:wait": null
+            },
+            {
+              "adb:push": {
+                group: "OpenGApps",
+                files: ["opengapps.zip"],
+                dest: "/data/"
+              }
+            },
+            {
+              "adb:shell": {
+                args: [
+                  "echo 'install /data/opengapps.zip' >> /cache/recovery/openrecoveryscript"
+                ]
+              }
+            }
+          ]
+        }
+      ]);
+  }
 }
-
 module.exports = OpenGAppsPlugin;

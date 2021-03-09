@@ -97,12 +97,14 @@ const getVariants = (arch, version) =>
  * @returns {Promise<Array<String>>} versions
  * @throws {Error} message "unsupported" if 404 not found
  */
- const getSupportedVersions = (arch) =>
- api
-   .get(`${opengapps_list}`)
-   .then(({ data }) => { return data.archs[arch].apis; })
-   .catch(error => {
-     throw error;
-   });
+const getSupportedVersions = arch =>
+  api
+    .get(`${opengapps_list}`)
+    .then(({ data }) => {
+      return data.archs[arch].apis;
+    })
+    .catch(error => {
+      throw error;
+    });
 
 module.exports = { getArch, getVariants, getLatestBuild, getSupportedVersions };
