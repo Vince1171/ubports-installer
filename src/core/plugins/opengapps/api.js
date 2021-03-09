@@ -28,17 +28,19 @@ const api = axios.create({ baseURL, timeout: 15000 });
 
 
 /**
- * get all available channel for a given arch and Android version
+ * get all available variants for a given arch and Android version
  * @param {String} arch device arch
  * @param {String} version device Android version
- * @returns {Promise<Array<String>>} channels
+ * @returns {Promise<Array<String>>} variants
  * @throws {Error} message "unsupported" if 404 not found
  */
- const getChannels = (arch, version) =>
- api
-   .get(`${opengapps_list}`)
-   .then(({ data }) => { return data.archs[arch].apis[version].variants })
-   .catch(error => {
-     throw error;
-   });
-module.exports = { getChannels };
+const getVariants = (arch, version) =>
+  api
+    .get(`${opengapps_list}`)
+    .then(({ data }) => {
+      return data.archs[arch].apis[version].variants;
+    })
+    .catch(error => {
+      throw error;
+    });
+module.exports = { getVariants };

@@ -27,14 +27,14 @@ const api = require("./api.js");
 class OpenGAppsPlugin extends Plugin {
 
   /**
-   * channels remote_values
+   * variants remote_values
    * @returns {Promise<Array<Object>>}
    */
-  remote_values__channels() {
-    return api.getChannels("arm64", "10.0").then(channels =>
-      channels.map(channel => ({
-        value: channel.name,
-        label: channel.name
+  remote_values__variants() {
+    return api.getVariants("arm64", "10.0").then(variants =>
+      variants.map(variant => ({
+        value: variants.indexOf(variant),
+        label: variant.name
       }))
     );
   }
