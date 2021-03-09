@@ -50,6 +50,20 @@ class OpenGAppsPlugin extends Plugin {
       }))
     );
   }
+
+  /**
+   * androidVersions remote_values
+   * @returns {Promise<Array<Object>>}
+   */
+   remote_values__androidVersions() {
+    return api.getSupportedVersions("arm64").then(versions =>
+        Object.keys(versions).map(version => ({
+        value: version,
+        label: version
+      }))
+    );
+  }
+
 }
 
 module.exports = OpenGAppsPlugin;
