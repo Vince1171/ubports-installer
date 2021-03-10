@@ -95,7 +95,11 @@ class OpenGAppsPlugin extends Plugin {
             {
               "adb:shell": {
                 args: [
-                  "echo 'install /data/opengapps.zip' >> /cache/recovery/openrecoveryscript"
+                  "echo",
+                  "install",
+                  "/data/opengapps.zip",
+                  ">>",
+                  "/cache/recovery/openrecoveryscript"
                 ]
               }
             }
